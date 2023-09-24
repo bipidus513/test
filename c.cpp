@@ -29,15 +29,15 @@ int main(int argc, char* argv[]){
     bpf_u_int32 net;
 
 
-    //Open live pcap session
+    //pcap_open_live를 이용하여 dev를 연다.
     handle = pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf);
     if (handle == NULL){
     fprintf(stderr, "Failed to open device.. %s: %s\n",dev, errbuf);
     }else{
-        printf("success to open pcap%s\n",dev);
+        printf("success to open pcap %s\n",dev);
     }
 
-    //
+    
     pcap_compile(handle, &fp, NULL, 0, net);
     if (pcap_setfilter(handle, &fp) !=0) {
       pcap_perror(handle, "Error:");
@@ -74,14 +74,14 @@ int main(int argc, char* argv[]){
         printf("TCP len : %d\n", tcp_header_len);
         printf("=================================\n");
         
-        //print Ether Header
+        //MAC 주소 출력
         printf("Ethernet Dest MAC : %02X:%02X:%02X:%02X:%02X:%02X\n", packet->eth.ether_dhost[0], packet->eth.ether_dhost[1],
         packet->eth.ether_dhost[2], packet->eth.ether_dhost[3], packet->eth.ether_dhost[4], packet->eth.ether_dhost[5]);
         printf("Ethernet Src MAC : %02X:%02X:%02X:%02X:%02X:%02X\n", packet->eth.ether_shost[0], packet->eth.ether_shost[1],
         packet->eth.ether_shost[2], packet->eth.ether_shost[3], packet->eth.ether_shost[4], packet->eth.ether_shost[5]);
         printf("=================================\n");
         
-        //print Ip Header
+        //IP 주소 출력
         printf("Dest IP : ");
         print_IP(packet->ip.iph_sourceip);
         printf("Src IP : ");
@@ -91,20 +91,6 @@ int main(int argc, char* argv[]){
         //print TCP header
         printf("Dest port : %d\n", ntohs(packet->tcp.tcp_dport));
         printf("Src port : %d\n", ntohs(packet->tcp.tcp_sport));
-
-        //print data
-        if(ip_len-ip_header_len-tcp_header_len > 0){
-            real_data = (unsigned char *)(packet + sizeof(ethheader) + ip_header_len + tcp_header_len);
-            printf("data : \n");
-            for(int i = 0; i < ip_len-ip_header_len-tcp_header_len; i++){
-                printf("%02X ", real_data[i]);
-                if(i%16 == 0){
-                    printf("\n");
-                }
-            }
-            printf("\n");
-        }
-        printf("=================================\n");
 
     }
 
