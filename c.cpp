@@ -35,7 +35,7 @@ int main(int argc, char* argv[]){
     if (handle == NULL){
     fprintf(stderr, "Failed to open device.. %s: %s\n",dev, errbuf);
     }else{
-        printf("success to open pcap\n",dev);
+        printf("success to open pcap%s\n",dev);
     }
 
     //
