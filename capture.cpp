@@ -69,25 +69,23 @@ int main(int argc, char* argv[]){
         if(packet->ip.iph_protocol != 6){
             continue;
         }
-
+        printf("=================================\n");
         printf("IP packet length : %d\n", ip_len);
         printf("IP header length : %d\n", ip_header_len);
         printf("TCP len : %d\n", tcp_header_len);
-        printf("=================================\n");
+        printf("\n");
         
         //print Ether Header
-        printf("Ethernet Dest MAC : %02X:%02X:%02X:%02X:%02X:%02X\n", packet->eth.ether_dhost[0], packet->eth.ether_dhost[1],
+        printf("Ethernet Dst MAC : %02X:%02X:%02X:%02X:%02X:%02X\n", packet->eth.ether_dhost[0], packet->eth.ether_dhost[1],
         packet->eth.ether_dhost[2], packet->eth.ether_dhost[3], packet->eth.ether_dhost[4], packet->eth.ether_dhost[5]);
         printf("Ethernet Src MAC : %02X:%02X:%02X:%02X:%02X:%02X\n", packet->eth.ether_shost[0], packet->eth.ether_shost[1],
         packet->eth.ether_shost[2], packet->eth.ether_shost[3], packet->eth.ether_shost[4], packet->eth.ether_shost[5]);
-        printf("=================================\n");
+        printf("\n");
         
         //print Ip Header
-        printf("Dest IP : ");
-        print_IP(packet->ip.iph_sourceip);
-        printf("Src IP : ");
-        print_IP(packet->ip.iph_destip);
-        printf("=================================\n");
+        printf("DST IP : %d.%d.%d.%d",packet->ip.iph_destip[0],packet->ip.iph_destip[1], packet->ip.iph_destip[2], packet->ip.iph_destip[3]);
+        printf("Src IP : %d.%d.%d.%d",packet->ip.iph_sourceip[0], packet->ip.iph_sourceip[1], packet->ip.iph_sourceip[2], packet->ip.iph_sourceip[3]);
+        printf("\n");
 
         //print TCP header
         printf("Dest port : %d\n", ntohs(packet->tcp.tcp_dport));
