@@ -8,6 +8,7 @@ struct ethheader {
 };
 
 /* IP Header */
+#pragma pack(push,1)
 struct ipheader {
   unsigned char      iph_ihl:4, //IP header length
                      iph_ver:4; //IP version
@@ -22,6 +23,7 @@ struct ipheader {
   uint32_t           iph_sourceip; //Source IP address
   uint32_t           iph_destip;   //Destination IP address
 };
+#pragma pack(pop)
 
 /* ICMP Header  */
 struct icmpheader {
