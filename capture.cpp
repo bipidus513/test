@@ -7,11 +7,6 @@
 #include "packet.h"
 
 
-void usage(){
-    printf("usage : tcpviewer <interface>\n");    
-}
-
-
 void print_IP(uint32_t ip){
     printf(" >> %d.%d.%d.%d\n", ip&0xff, (ip>>8)&0xff, (ip>>16)&0xff, (ip>>24)&0xff);    
 }
@@ -19,10 +14,7 @@ void print_IP(uint32_t ip){
 
 int main(int argc, char* argv[]){
     //input Device
-    if (argc != 2){
-        usage();
-        return -1;
-    }
+    
     char errbuf[PCAP_ERRBUF_SIZE];
     char* dev = argv[1];
     pcap_t *handle;
@@ -83,8 +75,10 @@ int main(int argc, char* argv[]){
         printf("\n");
         
         //print Ip Header
-        printf("DST IP : %d.%d.%d.%d",packet->ip.iph_destip[0],packet->ip.iph_destip[1], packet->ip.iph_destip[2], packet->ip.iph_destip[3]);
-        printf("Src IP : %d.%d.%d.%d",packet->ip.iph_sourceip[0], packet->ip.iph_sourceip[1], packet->ip.iph_sourceip[2], packet->ip.iph_sourceip[3]);
+        printf("Dest IP : ");
+        print_IP(packet->ip.iph_sourceip);
+        printf("Src IP : ");
+        print_IP(packet->ip.iph_destip);
         printf("\n");
 
         //print TCP header
