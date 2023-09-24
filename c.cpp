@@ -18,7 +18,6 @@ void print_IP(uint32_t ip){
 
 
 int main(int argc, char* argv[]){
-    argv[1] = "ens33";
     if (argc != 2){
         usage();
         return -1;
