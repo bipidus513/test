@@ -82,8 +82,6 @@ int main(int argc, char* argv[]){
         //print TCP header
         printf("Dest port : %d\n", ntohs(packet->tcp.tcp_dport));
         printf("Src port : %d\n", ntohs(packet->tcp.tcp_sport));
-
-        
         printf("=================================\n");
 
     }
