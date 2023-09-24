@@ -13,21 +13,20 @@ void print_IP(uint32_t ip){
 
 
 int main(int argc, char* argv[]){
-    //input Device
     
     char errbuf[PCAP_ERRBUF_SIZE];
-    char* dev = argv[1];
+    char* Pcap_interface = argv[1];
     pcap_t *handle;
     struct bpf_program fp;
     bpf_u_int32 net;
 
 
     //Open live pcap session
-    handle = pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf);
+    handle = pcap_open_live(Pcap_interface, BUFSIZ, 1, 1000, errbuf);
     if (handle == NULL){
-    fprintf(stderr, "Failed to open device.. %s: %s\n",dev, errbuf);
+    fprintf(stderr, "Failed to open device.. %s: %s\n",Pcap_interface, errbuf);
     }else{
-        printf("success to open pcap %s\n",dev);
+        printf("success open device %s wait a minute...\n",Pcap_interface);
     }
 
     //
