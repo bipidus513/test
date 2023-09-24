@@ -23,7 +23,7 @@ struct ipheader {
   uint32_t           iph_sourceip; //Source IP address
   uint32_t           iph_destip;   //Destination IP address
 };
-#pragma pack(pop)
+
 
 /* ICMP Header  */
 struct icmpheader {
@@ -32,15 +32,6 @@ struct icmpheader {
   unsigned short int icmp_chksum; //Checksum for ICMP Header and data
   unsigned short int icmp_id;     //Used for identifying request
   unsigned short int icmp_seq;    //Sequence number
-};
-
-/* UDP Header */
-struct udpheader
-{
-  uint16_t udp_sport;           /* source port */
-  uint16_t udp_dport;           /* destination port */
-  uint16_t udp_ulen;            /* udp length */
-  uint16_t udp_sum;             /* udp checksum */
 };
 
 /* TCP Header */
@@ -81,3 +72,4 @@ struct pseudo_tcp
         struct tcpheader tcp;
         char payload[1500];
 };
+#pragma pack(pop)
