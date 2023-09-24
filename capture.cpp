@@ -4,7 +4,7 @@
 #include <arpa/inet.h>
 #include <string>
 #include <stdlib.h>
-#include "packet.h"
+#include "capheader.h"
 
 
 void print_IP(uint32_t ip){
