@@ -21,7 +21,7 @@ int main(int argc, char* argv[]){
     bpf_u_int32 net;
 
 
-    //Open live pcap session
+    //open_live를 사용하여 디바이스 열기
     handle = pcap_open_live(Pcap_interface, BUFSIZ, 1, 1000, errbuf);
     if (handle == NULL){
     fprintf(stderr, "Failed to open device.. %s: %s\n",Pcap_interface, errbuf);
@@ -29,7 +29,6 @@ int main(int argc, char* argv[]){
         printf("success open device %s wait a minute...\n",Pcap_interface);
     }
 
-    //
     pcap_compile(handle, &fp, NULL, 0, net);
     if (pcap_setfilter(handle, &fp) !=0) {
       pcap_perror(handle, "Error:");
@@ -84,18 +83,7 @@ int main(int argc, char* argv[]){
         printf("Dest port : %d\n", ntohs(packet->tcp.tcp_dport));
         printf("Src port : %d\n", ntohs(packet->tcp.tcp_sport));
 
-        //print data
-        if(ip_len-ip_header_len-tcp_header_len > 0){
-            real_data = (unsigned char *)(packet + sizeof(ethheader) + ip_header_len + tcp_header_len);
-            printf("data : \n");
-            for(int i = 0; i < ip_len-ip_header_len-tcp_header_len; i++){
-                printf("%02X ", real_data[i]);
-                if(i%16 == 0){
-                    printf("\n");
-                }
-            }
-            printf("\n");
-        }
+        
         printf("=================================\n");
 
     }
