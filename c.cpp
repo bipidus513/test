@@ -12,11 +12,6 @@ void usage(){
 }
 
 
-void print_IP(uint32_t ip){
-    printf(" >> %d.%d.%d.%d\n", ip&0xff, (ip>>8)&0xff, (ip>>16)&0xff, (ip>>24)&0xff);    
-}
-
-
 int main(int argc, char* argv[]){
     if (argc != 2){
         usage();
@@ -60,12 +55,12 @@ int main(int argc, char* argv[]){
             continue;    
         }
         
-        uint8_t ip_header_len = (packet->ip.iph_ihl & 0xf) * 4;
+        uint8_t ip_header_len = (packet->ip.ip_hl & 0xf) * 4;
         uint8_t tcp_header_len = (packet->tcp.tcp_offx2 >> 4) * 4;
 
-        uint16_t ip_len = ntohs(packet->ip.iph_len);
+        uint16_t ip_len = ntohs(packet->ip.ip_len);
 
-        if(packet->ip.iph_protocol != 6){
+        if(packet->ip.ip_p != 6){
             continue;
         }
 
@@ -77,16 +72,14 @@ int main(int argc, char* argv[]){
         //MAC 주소 출력
         printf("Ethernet Dest MAC : %02X:%02X:%02X:%02X:%02X:%02X\n", packet->eth.ether_dhost[0], packet->eth.ether_dhost[1],
         packet->eth.ether_dhost[2], packet->eth.ether_dhost[3], packet->eth.ether_dhost[4], packet->eth.ether_dhost[5]);
-        printf("Ethernet Src MAC : %02X:%02X:%02X:%02X:%02X:%02X\n", packet->eth.ether_shost[0], packet->eth.ether_shost[1],
+        printf("Ethernet Src MAC : %02X:%02X:%02X:%02X:%02X:%02X\n\n", packet->eth.ether_shost[0], packet->eth.ether_shost[1],
         packet->eth.ether_shost[2], packet->eth.ether_shost[3], packet->eth.ether_shost[4], packet->eth.ether_shost[5]);
-        printf("=================================\n");
+        
         
         //IP 주소 출력
-        printf("Dest IP : ");
-        print_IP(packet->ip.iph_sourceip);
-        printf("Src IP : ");
-        print_IP(packet->ip.iph_destip);
-        printf("=================================\n");
+        printf("Dest IP : %d.%d.%d.%d\n", packet->ip.ip_dst[0],packet->ip.ip_dst[1],packet->ip.ip_dst[2],packet->ip.ip_dst[3]);
+        printf("Src IP : %d.%d.%d.%d\n\n", packet->ip.ip_src[0],packet->ip.ip_src[1],packet->ip.ip_src[2],packet->ip.ip_src[3]");
+        
 
         //print TCP header
         printf("Dest port : %d\n", ntohs(packet->tcp.tcp_dport));
